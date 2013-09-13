@@ -1,4 +1,4 @@
-(ns firehose.twitter
+(ns butterfly.twitter
   (:require [clojure.data.json :as json]
             [http.async.client :as ac]
             [twitter.oauth :as oauth]

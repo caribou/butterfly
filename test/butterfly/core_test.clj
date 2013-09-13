@@ -1,6 +1,6 @@
-(ns firehose.core-test
+(ns butterfly.core-test
   (:require [clojure.test :refer :all]
-            [firehose.core :refer :all]))
+            [butterfly.core :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."

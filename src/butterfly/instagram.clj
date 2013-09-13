@@ -1,4 +1,4 @@
-(ns firehose.instagram
+(ns butterfly.instagram
   (:require [instagram.oauth :as oauth]
             [instagram.callbacks :as callbacks]
             [instagram.callbacks.handlers :as handlers]
