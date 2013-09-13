@@ -4,9 +4,11 @@ A social tool for aggregating various social feeds
 
 ## Usage
 
-    (require '[butterfly.core :as butterfly])
-    (butterly/start-streaming {:twitter   {:tag "butterfly" :handler println}
-                               :instagram {:tag "butterfly" :handler println}})
+```clj
+(require '[butterfly.core :as butterfly])
+(butterly/start-streaming {:twitter   {:tag "butterfly" :handler println}
+                           :instagram {:tag "butterfly" :handler println}})
+```
 
 ## License
 
