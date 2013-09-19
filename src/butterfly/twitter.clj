@@ -7,19 +7,14 @@
             [twitter.api.streaming :as streaming])
   (:import (twitter.callbacks.protocols AsyncStreamingCallback)))
 
-(def oauth-map
-  {:consumer-key "oSaFVmBhOq4bLAHECqNw"
-   :consumer-secret "fIJbwzJFqbhDKFFpAM4CD4wkFH3SgmBjAAPKJMlWxDs"
-   :access-token "15369416-5axMbMX2r2asNJlSFI6yAQIuM1QDsnLcdJn6cwMxY"
-   :access-secret "vowJnDC9knSzpaRAaM2fC3fbNIZOJQAaUrDIWjFEWc"})
-
-(def oauth-creds
+(defn make-oauth-creds
+  [oauth-map]
   (oauth/make-oauth-creds
    (:consumer-key oauth-map)
    (:consumer-secret oauth-map)
    (:access-token oauth-map)
    (:access-secret oauth-map)))
-  
+
 (def printing-callback
   (AsyncStreamingCallback. 
    (comp println :text json/read-json #(str %2))
@@ -34,8 +29,8 @@
    handlers/exception-print))
 
 (defn start-streaming
-  [tag handler]
+  [tag handler creds]
   (streaming/statuses-filter 
    :params {:track tag}
-   :oauth-creds oauth-creds
+   :oauth-creds (make-oauth-creds creds)
    :callbacks (make-handler-callback handler)))

@@ -6,10 +6,10 @@
   [handlers]
   {:twitter 
    (when-let [twitter (:twitter handlers)]
-     (twitter/start-streaming (:tag twitter) (:handler twitter)))
+     (twitter/start-streaming (:tag twitter) (:handler twitter) (:creds twitter)))
    :instagram
    (when-let [instagram (:instagram handlers)]
-     (instagram/start-streaming (:tag instagram) (:handler instagram)))})
+     (instagram/start-streaming (:tag instagram) (:handler instagram) (:creds instagram)))})
 
 ;; (start-streaming 
 ;;  {:twitter 
