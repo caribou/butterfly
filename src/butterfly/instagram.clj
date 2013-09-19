@@ -17,13 +17,22 @@
    (:redirect-uri oauth-map)))
 
 (defn get-tags
-  [tag handler]
-  (let [results (endpoint/get-tagged-medias 
-                 :oauth oauth-creds
-                 :params {:tag_name tag})]
-    (doseq [result (-> results :body :data)]
-      (handler result))))
+  [tag]
+  (-> (endpoint/get-tagged-medias 
+       :oauth oauth-creds
+       :params {:tag_name tag})
+      :body :data))
 
 (defn start-streaming
-  [tag handler]
-  (loop []))
+  ([tag handler] (start-streaming tag handler 60000))
+  ([tag handler sleeping]
+     (loop [previous-id nil]
+       (let [results (reverse (sort-by :created_time (get-tags tag)))
+             most-recent-id (:id (first results))
+             recent (if previous-id 
+                      (take-while #(not= previous-id (:id %)) results)
+                      results)]
+         (doseq [result recent]
+           (handler result))
+         (Thread/sleep sleeping)
+         (recur most-recent-id)))))

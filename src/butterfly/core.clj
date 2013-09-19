@@ -11,4 +11,10 @@
    (when-let [instagram (:instagram handlers)]
      (instagram/start-streaming (:tag instagram) (:handler instagram)))})
 
-;; (start-streaming {:twitter {:tag "instrumentrulz" :handler (fn [item] ...)}})
+;; (start-streaming 
+;;  {:twitter 
+;;   {:tag "instrumentrulz" 
+;;    :handler (fn [item] ...)}
+;;   :instagram 
+;;   {:tag "instrumentrulz"
+;;    :handler (fn [])}})
