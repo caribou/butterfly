@@ -14,20 +14,21 @@
 
 (defn get-tags
   [tag creds]
-  (-> (endpoint/get-tagged-medias 
-       :oauth creds
-       :params {:tag_name tag})
-      :body :data))
+  (let [results (endpoint/get-tagged-medias 
+                 :oauth creds
+                 :params {:tag_name tag})]
+    (println results)
+    (get-in results [:body "data"])))
 
 (defn start-streaming
-  ([tag handler creds] (start-streaming tag handler creds 60000))
+  ([tag handler creds] (start-streaming tag handler creds 600))
   ([tag handler creds sleeping]
      (let [oauth-map (make-oauth-creds creds)]
        (loop [previous-id nil]
-         (let [results (reverse (sort-by :created_time (get-tags tag oauth-map)))
-               most-recent-id (:id (first results))
+         (let [results (reverse (sort-by #(get % "created_time") (get-tags tag oauth-map)))
+               most-recent-id (get (first results) "id")
                recent (if previous-id 
-                        (take-while #(not= previous-id (:id %)) results)
+                        (take-while #(not= previous-id (get % "id")) results)
                         results)]
            (doseq [result recent]
              (handler result))

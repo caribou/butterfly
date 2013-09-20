@@ -1,5 +1,6 @@
 (ns butterfly.twitter
   (:require [clojure.data.json :as json]
+            [clojure.java.io :as io]
             [http.async.client :as ac]
             [twitter.oauth :as oauth]
             [twitter.callbacks :as callbacks]
@@ -17,14 +18,22 @@
 
 (def printing-callback
   (AsyncStreamingCallback. 
-   (comp println :text json/read-json #(str %2))
+   (comp println :text json/read #(str %2))
    (comp println handlers/response-return-everything)
    handlers/exception-print))
+
+(defn handle-tweet
+  [handler]
+  (fn [_ raw]
+    (try 
+      (when-let [tweet (json/read-str (str raw))]
+        (handler tweet))
+      (catch Exception e nil))))
 
 (defn make-handler-callback
   [handler]
   (AsyncStreamingCallback. 
-   (fn [_ tweet] (handler tweet))
+   (handle-tweet handler)
    (comp println handlers/response-return-everything)
    handlers/exception-print))
 
