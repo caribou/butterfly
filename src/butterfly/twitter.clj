@@ -24,7 +24,7 @@
 (defn make-handler-callback
   [handler]
   (AsyncStreamingCallback. 
-   handler
+   (fn [_ tweet] (handler tweet))
    (comp println handlers/response-return-everything)
    handlers/exception-print))
 
