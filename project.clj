@@ -1,4 +1,4 @@
-(defproject caribou/butterfly "0.1.0"
+(defproject caribou/butterfly "0.1.1"
   :description "Flying animal of the social world"
   :url "http://github.com/caribou/butterfly"
   :license {:name "Eclipse Public License"

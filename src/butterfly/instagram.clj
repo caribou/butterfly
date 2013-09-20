@@ -21,7 +21,7 @@
     (get-in results [:body "data"])))
 
 (defn start-streaming
-  ([tag handler creds] (start-streaming tag handler creds 600))
+  ([tag handler creds] (start-streaming tag handler creds 10000))
   ([tag handler creds sleeping]
      (let [oauth-map (make-oauth-creds creds)]
        (loop [previous-id nil]
