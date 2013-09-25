@@ -17,7 +17,6 @@
   (let [results (endpoint/get-tagged-medias 
                  :oauth creds
                  :params {:tag_name tag})]
-    (println results)
     (get-in results [:body "data"])))
 
 (defn start-streaming
